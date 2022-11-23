@@ -13,6 +13,8 @@ public class TicketControl {
     private Residuo r1;
 
     private GeneradorConsultorio c1;
+    
+    private float peso;
 
     public TicketControl(int id_ticket, Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
         this.id_ticket=id_ticket;
@@ -20,6 +22,7 @@ public class TicketControl {
         this.fecha=fecha;
         this.r1=r1;
         this.c1=c1;
+       ;
     }
 
     public TicketControl(Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
@@ -27,6 +30,14 @@ public class TicketControl {
         this.fecha=fecha;
         this.r1=r1;
         this.c1=c1;
+    }
+
+    public float getPeso() {
+        return peso;
+    }
+
+    public void setPeso(float peso) {
+        this.peso = peso;
     }
 
     public TicketControl() {
