@@ -9,6 +9,8 @@ public class GeneradorConsultorio {
     private String cuit;
 
     private String domicilio;
+    
+    private boolean estado;
 
     public GeneradorConsultorio(int id_Consultorio,String nombre,String cuit,String domicilio) {
     this.id_Consultorio=id_Consultorio;
