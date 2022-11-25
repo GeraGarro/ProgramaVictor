@@ -1,6 +1,7 @@
 package Data;
 
 import Entidades.Conexion;
+import Entidades.Residuo;
 import Entidades.TicketControl;
 import Entidades.Transportista;
 import java.sql.Connection;
@@ -29,8 +30,8 @@ public void agregarTicket(TicketControl tc){
            
            PreparedStatement ps=conx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
            
-           ps.setString(1,Transportista.TRANSPORTISTA.getNombre() );
-           ps.setInt(2, tc.getC1().getId_Consultorio());
+           ps.setString(1,tc.getTransportista().getNombre() );
+           ps.setInt(2, tc.getConsultorio().getId_Consultorio());
            ps.setDate(3, Date.valueOf(tc.getFecha()));
            ps.setString(4, tc.getR1().getTipo());
            ps.setDouble(5, tc.getR1().getPeso());
@@ -89,11 +90,18 @@ public void eliminarTicket(int id_ticket){
            ps=conx.prepareStatement(sql);
            
            ResultSet rs=ps.executeQuery();
+           
+           
            while (rs.next()){
                tC=new TicketControl();
                GeneradorConsultorio_Data gcD=new GeneradorConsultorio_Data();
                
-               
+               tC.setId_ticket(rs.getInt("id_Ticket"));
+               tC.setTransportista(Transportista.valueOf(rs.getString("Transportista")));
+               tC.setConsultorio(gcD.obtenerGeneradorConsultorio(rs.getInt("id_consultorio")));
+               tC.setFecha(rs.getDate("Fecha").toLocalDate());
+               tC.setR1(Residuo.valueOf(rs.getString("ResiduoTipo")));
+               tC.setPeso(Residuo.valueOf(rs.));
            } } catch (SQLException ex) {
            Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
        }

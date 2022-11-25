@@ -12,16 +12,19 @@ public class GeneradorConsultorio {
     
     private boolean estado;
 
-    public GeneradorConsultorio(int id_Consultorio,String nombre,String cuit,String domicilio) {
+    public GeneradorConsultorio(int id_Consultorio,String nombre,String cuit,String domicilio,boolean estado) {
     this.id_Consultorio=id_Consultorio;
     this.nombre=nombre;
     this.cuit=cuit;
-    this.domicilio=domicilio;}
+    this.domicilio=domicilio;
+    this.estado=estado;
+    }
 
-    public GeneradorConsultorio(String nombre, String cuit, String domicilio) {
+    public GeneradorConsultorio(String nombre, String cuit, String domicilio,boolean estado) {
      this.nombre=nombre;
     this.cuit=cuit;
     this.domicilio=domicilio;
+    this.estado=estado;
     }
 
     public GeneradorConsultorio() {
@@ -57,6 +60,14 @@ public class GeneradorConsultorio {
 
     public String getDomicilio() {
         return domicilio;
+    }
+
+     public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     @Override

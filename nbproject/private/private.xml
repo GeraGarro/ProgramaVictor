@@ -5,9 +5,10 @@
         <group>
             <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Entidades/Residuo.java</file>
             <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Entidades/Transportista.java</file>
+            <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Data/GeneradorConsultorio_Data.java</file>
             <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Data/TicketControl_Data.java</file>
-            <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Entidades/CertificadoDisposicionFinal.java</file>
             <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Entidades/GeneradorConsultorio.java</file>
+            <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Data/Tranportista_Data.java</file>
             <file>file:/C:/Users/gera_/Documents/GitHub/ProgramaVictor/src/Entidades/TicketControl.java</file>
         </group>
     </open-files>

@@ -2,7 +2,7 @@ package Entidades;
 
 public enum Transportista {
 
-    TRANSPORTISTA("Victor Alvarez","1111","2222");
+    TRANSPORTISTA1("Victor Alvarez","1111","2222");
     
     private String nombre;
     private String cuit;
@@ -13,10 +13,7 @@ public enum Transportista {
         this.cuit = cuit;
         this.legajo = legajo;
     }
-
-    public static Transportista getTRANSPORTISTA() {
-        return TRANSPORTISTA;
-    }
+    
 
     public String getNombre() {
         return nombre;

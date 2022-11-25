@@ -12,8 +12,10 @@ public enum Residuo {
         this.tipo = tipo;
         this.peso = peso;
     }
-
     
+    public Residuo[] getResiduo(){
+        return Residuo.values();
+    }
 
     public String getTipo() {
         return tipo;

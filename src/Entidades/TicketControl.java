@@ -14,7 +14,6 @@ public class TicketControl {
 
     private GeneradorConsultorio c1;
     
-    private float peso;
 
     public TicketControl(int id_ticket, Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
         this.id_ticket=id_ticket;
@@ -22,7 +21,7 @@ public class TicketControl {
         this.fecha=fecha;
         this.r1=r1;
         this.c1=c1;
-       ;
+       
     }
 
     public TicketControl(Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
@@ -32,14 +31,8 @@ public class TicketControl {
         this.c1=c1;
     }
 
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso;
-    }
-
+    
+    
     public TicketControl() {
     }
 
@@ -51,11 +44,11 @@ public class TicketControl {
         this.id_ticket = id_ticket;
     }
 
-    public Transportista getT1() {
+    public Transportista getTransportista() {
         return t1;
     }
 
-    public void setT1(Transportista t1) {
+    public void setTransportista(Transportista t1) {
         this.t1 = t1;
     }
 
@@ -70,16 +63,37 @@ public class TicketControl {
     public Residuo getR1() {
         return r1;
     }
-
+    public Residuo[] getNombreResiduo(){
+        return r1.getResiduo();
+        
+    }
+    public double getPesoResiduo(){
+        return r1.getPeso();
+    }
+    
+    public String getTipoResiduo(){
+        return r1.getTipo();
+    }
+    
     public void setR1(Residuo r1) {
         this.r1 = r1;
     }
 
-    public GeneradorConsultorio getC1() {
+    
+     public void setPesoResiduo(double peso){
+        this.r1.setPeso(peso);
+    }
+   
+    
+    
+    
+    
+    public GeneradorConsultorio getConsultorio() {
         return c1;
     }
 
-    public void setC1(GeneradorConsultorio c1) {
+   
+    public void setConsultorio(GeneradorConsultorio c1) {
         this.c1 = c1;
     }
 
