@@ -63,31 +63,14 @@ public class TicketControl {
     public Residuo getR1() {
         return r1;
     }
-    public Residuo[] getNombreResiduo(){
-        return r1.getResiduo();
-        
-    }
-    public double getPesoResiduo(){
-        return r1.getPeso();
-    }
     
-    public String getTipoResiduo(){
-        return r1.getTipo();
-    }
+   
     
-    public void setR1(Residuo r1) {
+    public void setResiduo(Residuo r1) {
         this.r1 = r1;
     }
 
-    
-     public void setPesoResiduo(double peso){
-        this.r1.setPeso(peso);
-    }
-   
-    
-    
-    
-    
+      
     public GeneradorConsultorio getConsultorio() {
         return c1;
     }

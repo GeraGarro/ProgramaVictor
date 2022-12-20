@@ -1,5 +1,6 @@
 package Principal_Victor;
 
+import Data.GeneradorConsultorio_Data;
 import Data.TicketControl_Data;
 import Entidades.Conexion;
 import Entidades.GeneradorConsultorio;
@@ -15,13 +16,24 @@ public class ProgramaVictor {
 
 
     public static void main(String[] args) {
-       GeneradorConsultorio c1=new GeneradorConsultorio(1,"Crespo Carlos", "2012341011", "Colon 820");
+      /*GeneradorConsultorio c1=new GeneradorConsultorio(1,"Crespo Carlos", "2012341011", "Colon 820");
         
         TicketControl tk1=new TicketControl(Transportista.TRANSPORTISTA, LocalDate.of(22, Month.NOVEMBER, 23), Residuo.A1, c1);
        
         TicketControl_Data tkD=new TicketControl_Data();
         
-       tkD.agregarTicket(tk1);
+       tkD.agregarTicket(tk1);*/
+      
+        GeneradorConsultorio_Data gc1=new GeneradorConsultorio_Data();
+        
+       // gc1.desactivarConsultorio(2);
+       
+        for (GeneradorConsultorio consultorio : gc1.listarConsultorios()) {
+            System.out.println(consultorio);
+            System.out.println("");
+        }
+        
+        
     }
     
     
