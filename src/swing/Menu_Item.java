@@ -19,10 +19,10 @@ public class Menu_Item extends javax.swing.JPanel {
         if(data.getTipo()==Modelo_menu.MenuTipo.MENU){
             TIcono.setIcon(data.toIcono());
             TNombre.setText(data.getNombre());
-            TNombre.setFont(new Font("Malgun Gothic",1 ,12));
+            TNombre.setFont(new Font("Gotham",1 ,12));
         }else if(data.getTipo()==Modelo_menu.MenuTipo.TITULO){
             TIcono.setText(data.getNombre());     
-            TIcono.setFont(new Font("Tahoma", 3, 30));
+            TIcono.setFont(new Font("FF DIN", 3, 30));
             TNombre.setVisible(false);
         }else{
             TNombre.setText(" ");
