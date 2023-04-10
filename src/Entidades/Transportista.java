@@ -1,49 +1,77 @@
 package Entidades;
 
-public enum Transportista {
 
-    TRANSPORTISTA1("Victor Alvarez","1111","2222");
-    
+public class Transportista {
+       
+    private int id;
     private String nombre;
+    private String apellido;
     private String cuit;
-    private String legajo;
-
-    private Transportista(String nombre, String cuit, String legajo) {
-        this.nombre = nombre;
-        this.cuit = cuit;
-        this.legajo = legajo;
-    }
+    private boolean estado;
     
+    public Transportista(int id,String nombre,String apellido,String cuit,boolean estado){
+        this.id=id;
+        this.nombre=nombre;
+        this.apellido=apellido;
+        this.cuit=cuit;
+        this.estado=estado;
+    }
+
+    public Transportista(String nombre, String apellido, String cuit, boolean estado) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.cuit = cuit;
+        this.estado = estado;
+    }
+
+    public Transportista() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getCuit() {
-        return cuit;
-    }
-
-    public String getLegajo() {
-        return legajo;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getCuit() {
+        return cuit;
+    }
+
     public void setCuit(String cuit) {
         this.cuit = cuit;
     }
 
-    public void setLegajo(String legajo) {
-        this.legajo = legajo;
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "Transportista{" + "Nombre: " + nombre + ", CUIT: " + cuit + ", Legajo: " + legajo + '}';
+        return "Transportista N°" + id + "{ Nombre:" + nombre + " " + apellido + ", CUIT: " + cuit + ", Estado: " + estado + '}';
     }
     
-   
- 
+    
+    
 }

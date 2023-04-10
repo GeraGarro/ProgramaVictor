@@ -72,8 +72,18 @@ public class GeneradorConsultorio {
 
     @Override
     public String toString() {
-        return "GeneradorConsultorio:{" + "id:" + id_Consultorio + "\n Nombre: " + nombre + "\n CUIT: " + cuit + "\n Domicilio: " + domicilio + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("GeneradorConsultorio{");
+        sb.append("Id:").append(id_Consultorio);
+        sb.append(", Nombre: ").append(nombre);
+        sb.append(", CUIT: ").append(cuit);
+        sb.append(", Domicilio: ").append(domicilio);
+        sb.append(", Estado de Actividad:").append(estado);
+        sb.append('}');
+        return sb.toString();
     }
+
+   
     
     
 }

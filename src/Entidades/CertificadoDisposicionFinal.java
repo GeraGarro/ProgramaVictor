@@ -9,22 +9,32 @@ public class CertificadoDisposicionFinal {
 
     private LocalDate fechaMensual;
 
-    private ArrayList<TicketControl> ListaTicket;
+    private Transportista transportista;
+    
+    private float totalPeso;
 
-    private Transportista t1;
-
-    public CertificadoDisposicionFinal(int id_Certificado, LocalDate fechaMensual, Transportista t1) {
+    public CertificadoDisposicionFinal(int id_Certificado, LocalDate fechaMensual, Transportista transportista, float totalPeso) {
     this.id_Certificado=id_Certificado;
     this.fechaMensual=fechaMensual;
-    this.t1=t1;
+    this.transportista=transportista;
+    this.totalPeso=totalPeso;
     }
 
-    public CertificadoDisposicionFinal(LocalDate fechaMensual, Transportista t1) {
+    public CertificadoDisposicionFinal(LocalDate fechaMensual, Transportista transportista,float totalPeso) {
     this.fechaMensual=fechaMensual;
-    this.t1=t1;
+    this.transportista=transportista;
+    this.totalPeso=totalPeso;
     }
 
     public CertificadoDisposicionFinal() {
+    }
+
+    public float getTotalPeso() {
+        return totalPeso;
+    }
+
+    public void setTotalPeso(float totalPeso) {
+        this.totalPeso = totalPeso;
     }
 
     public int getId_Certificado() {
@@ -35,8 +45,8 @@ public class CertificadoDisposicionFinal {
         return fechaMensual;
     }
 
-    public Transportista getT1() {
-        return t1;
+    public Transportista getTransportista() {
+        return transportista;
     }
 
     public void setId_Certificado(int id_Certificado) {
@@ -47,14 +57,25 @@ public class CertificadoDisposicionFinal {
         this.fechaMensual = fechaMensual;
     }
 
-    public void setT1(Transportista t1) {
-        this.t1 = t1;
+    public void setTransportista(Transportista transportista) {
+        this.transportista = transportista;
     }
 
     @Override
     public String toString() {
-        return "CertificadoDisposicionFinal{" + "id:" + id_Certificado +",\n Tranportista=" + t1 + "\n Periodo: " + fechaMensual + "\n ListaTicket:{" + ListaTicket +"}"+ '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("CertificadoDisposicionFinal{");
+        sb.append("id_Certificado=").append(id_Certificado);
+        sb.append(", fechaMensual=").append(fechaMensual);
+        sb.append(", transportista=").append(transportista);
+        sb.append(", totalPeso=").append(totalPeso);
+        sb.append('}');
+        return sb.toString();
     }
+    
+    
+
+    
 
     
 

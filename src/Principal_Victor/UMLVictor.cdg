@@ -2,7 +2,7 @@
 
 <ClassDiagram name="UMLVictor">
   <ClassDiagramComponents>
-    <Class name="TicketControl" package="" visibility="public" xPosition="325.0" yPosition="10.0">
+    <Class name="TicketControl" package="" visibility="public" xPosition="619.0" yPosition="10.0">
       <Fields>
         <Field name="id_ticket" type="int" visibility="private"/>
         <Field name="t1" type="Ttransportista" visibility="private"/>
@@ -32,7 +32,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="GeneradorConsultorio" package="" visibility="public" xPosition="880.0" yPosition="339.0">
+    <Class name="GeneradorConsultorio" package="" visibility="public" xPosition="-9.0" yPosition="48.0">
       <Fields>
         <Field name="id_Consultorio" type="int" visibility="private"/>
         <Field name="nombre" type="String" visibility="private"/>
@@ -59,7 +59,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="CertificadoDisposicionFinal" package="" visibility="public" xPosition="114.0" yPosition="388.0">
+    <Class name="CertificadoDisposicionFinal" package="" visibility="public" xPosition="1152.0" yPosition="358.0">
       <Fields>
         <Field name="id_Certificado" type="int" visibility="private"/>
         <Field name="fechaMensual" type="LocalDate" visibility="private"/>
@@ -84,22 +84,61 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Enum name="Transportista" package="" visibility="public" xPosition="1124.0" yPosition="191.0">
-      <Literals>
-        <Literal name="TRANSPORTISTA"/>
-      </Literals>
-    </Enum>
-    <Enum name="Residuo" package="" visibility="public" xPosition="1124.0" yPosition="55.0">
-      <Literals>
-        <Literal name="MaterialesOrganicos"/>
-        <Literal name="MaterialesInorganicos"/>
-      </Literals>
-    </Enum>
+    <Class name="Residuo" package="" visibility="public" xPosition="1373.0" yPosition="29.0">
+      <Fields>
+        <Field name="id_residuo" type="int" visibility="private"/>
+        <Field name="nombreRes" type="String" visibility="private"/>
+        <Field name="tipo" type="String" visibility="private"/>
+        <Field name="peso" type="float" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="id_residuo"/>
+          <Argument type="String" name="nombreRes"/>
+          <Argument type="String" name="tipo"/>
+          <Argument type="float" name="peso"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="nombreRes"/>
+          <Argument type="String" name="tipo"/>
+          <Argument type="float" name="peso"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="gettersAtributos" returnType="void" visibility="public"/>
+        <Method name="toString" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Transportista" package="" visibility="public" xPosition="779.0" yPosition="505.0">
+      <Fields>
+        <Field name="id_transportista" type="int" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="cuit" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="id_transportista"/>
+          <Argument type="String" name="nombre"/>
+          <Argument type="String" name="cuit"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="nombre"/>
+          <Argument type="String" name="cuit"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getterAtributos" returnType="void" visibility="public"/>
+        <Method name="SetterAtributos" returnType="void" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation name="Residuo" source="TicketControl" target="Residuo" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="Transportista" source="TicketControl" target="Transportista" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="Residuo" source="Residuo" target="TicketControl" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
     <HasRelation name="Consultorio" source="TicketControl" target="GeneradorConsultorio" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <HasRelation name="Ticket" source="CertificadoDisposicionFinal" target="TicketControl" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+    <HasRelation name="Transportista" source="Transportista" target="TicketControl" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

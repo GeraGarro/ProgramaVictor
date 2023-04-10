@@ -6,29 +6,25 @@ public class TicketControl {
 
     private int id_ticket;
 
-    private Transportista t1;
+    private Transportista transportista;
 
     private LocalDate fecha;
 
-    private Residuo r1;
-
-    private GeneradorConsultorio c1;
+    private GeneradorConsultorio consultorio;
     
 
-    public TicketControl(int id_ticket, Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
+    public TicketControl(int id_ticket, Transportista transportista, LocalDate fecha, GeneradorConsultorio consultorio) {
         this.id_ticket=id_ticket;
-        this.t1=t1;
+        this.transportista=transportista;
         this.fecha=fecha;
-        this.r1=r1;
-        this.c1=c1;
+        this.consultorio=consultorio;
        
     }
 
-    public TicketControl(Transportista t1, LocalDate fecha, Residuo r1, GeneradorConsultorio c1) {
-        this.t1=t1;
+    public TicketControl(Transportista transportista, LocalDate fecha, GeneradorConsultorio consultorio) {
+        this.transportista=transportista;
         this.fecha=fecha;
-        this.r1=r1;
-        this.c1=c1;
+        this.consultorio=consultorio;
     }
 
     
@@ -45,11 +41,11 @@ public class TicketControl {
     }
 
     public Transportista getTransportista() {
-        return t1;
+        return transportista;
     }
 
-    public void setTransportista(Transportista t1) {
-        this.t1 = t1;
+    public void setTransportista(Transportista transportista) {
+        this.transportista = transportista;
     }
 
     public LocalDate getFecha() {
@@ -60,30 +56,32 @@ public class TicketControl {
         this.fecha = fecha;
     }
 
-    public Residuo getR1() {
-        return r1;
-    }
-    
-   
-    
-    public void setResiduo(Residuo r1) {
-        this.r1 = r1;
-    }
+  
+  
 
       
     public GeneradorConsultorio getConsultorio() {
-        return c1;
+        return consultorio;
     }
 
    
-    public void setConsultorio(GeneradorConsultorio c1) {
-        this.c1 = c1;
+    public void setConsultorio(GeneradorConsultorio consultorio) {
+        this.consultorio = consultorio;
     }
 
     @Override
     public String toString() {
-        return "TicketControl{" + "Id: " + id_ticket + ", Transportista: " + t1 + ", Fecha: " + fecha + ", Consultorio" + r1 + ", Residuo: " + c1 + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("TicketControl{");
+        sb.append("id_ticket:").append(id_ticket);
+        sb.append(", Transportista:").append(transportista);
+        sb.append(", Fecha:").append(fecha);
+        sb.append(", Consultorio:").append(consultorio);
+        sb.append('}');
+        return sb.toString();
     }
+
+   
     
     
 }

@@ -17,94 +17,180 @@ import javax.swing.JOptionPane;
 
 public class TicketControl_Data {
    private Connection conx; 
+   private Transportista_Data t_Data;
+   private GeneradorConsultorio_Data g_Data;
+   
    
 public TicketControl_Data(){
     this.conx=Conexion.getConexion();    
+   this.t_Data=new Transportista_Data();
+   this.g_Data=new GeneradorConsultorio_Data();
 }
 
-public void agregarTicket(TicketControl tc){
-    
-       try {
-           String sql="INSERT INTO `ticket_control`(`Transportista`, `id_Consultorio`, `Fecha`, `ResiduoTipo`, `ResiduoCant`) VALUES (? ,? ,? ,? ,?)";
+public void CrearTicketControl(TicketControl tC){
+      
+                try {
+           PreparedStatement ps=conx.prepareStatement("INSERT INTO `ticket_control`(`id_transportista`, `Fecha`, `id_Consultorio`) VALUES ( ?, ?, ?)");
            
-           
-           PreparedStatement ps=conx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-           
-           ps.setString(1,tc.getTransportista().getNombre() );
-           ps.setInt(2, tc.getConsultorio().getId_Consultorio());
-           ps.setDate(3, Date.valueOf(tc.getFecha()));
-           ps.setString(4, tc.getR1().getTipo());
-           ps.setDouble(5, tc.getR1().getPeso());
+           ps.setInt(1, tC.getTransportista().getId());        
+           ps.setDate(2, java.sql.Date.valueOf(tC.getFecha()));  
+         ps.setInt(3, tC.getConsultorio().getId_Consultorio());
            
            String mensaje;
-           
-           int registroNuevo=ps.executeUpdate();
-           
-           if(registroNuevo>0){
-               mensaje="Registro Agregado con Exito";
-               
+           if(ps.executeUpdate()>0){
+               mensaje="Nuevo Ticket Generado";
+   
+           }else{
+            mensaje="No fue posible generar el ticket";   
            }
            
-           else{
-               mensaje="No se Pudo Agregar";
-               
-           }
-           JOptionPane.showMessageDialog(null, mensaje);
+           JOptionPane.showMessageDialog(null, mensaje, "AVISO", JOptionPane.INFORMATION_MESSAGE);
        } catch (SQLException ex) {
+           
+           JOptionPane.showMessageDialog(null, "Error De Conexion, no fue posible establecer conexion con la Base de datos");
+           JOptionPane.showConfirmDialog(null, ex);
+         //  Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
+       }   
+    }
 
-           JOptionPane.showMessageDialog(null, ex);       }
-    
-}
-
-public void eliminarTicket(int id_ticket){
-      String mensaje;
-    try {
-           String sql="DELETE FROM `ticket_control` WHERE id_Ticket= ?";
+    public TicketControl obtenerTicket(int id){
+        TicketControl tc=new TicketControl();
+       try {PreparedStatement ps;
+           ps = conx.prepareStatement("SELECT * FROM `ticket_control` WHERE id_Ticket= ?");
            
-           PreparedStatement ps=conx.prepareStatement(sql);
-           int datoNuevo=ps.executeUpdate();
-           
-           if(datoNuevo>0){
-               mensaje="Se ha Eliminado el Ticket";
-               
-           }
-           else{
-               mensaje="Error al eliminar el ticket";
-           }
-           
-           JOptionPane.showMessageDialog(null, mensaje);
-       } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-       }
-     
-}
- public ArrayList<TicketControl> ListadoTicket() {
-      
-           ArrayList<TicketControl> lista=new ArrayList<>();
-           TicketControl tC=null;
-           
-           String sql="SELECT * FROM ticket_Control";
-           
-           PreparedStatement ps=null;
-          try {  
-           ps=conx.prepareStatement(sql);
+           ps.setInt(1, id);
            
            ResultSet rs=ps.executeQuery();
            
-           
-           while (rs.next()){
-               tC=new TicketControl();
-               GeneradorConsultorio_Data gcD=new GeneradorConsultorio_Data();
+           if(rs.next()){
+              
+               tc.setId_ticket(rs.getInt("id_Ticket"));
+               tc.setTransportista(t_Data.obtenerTransportista(rs.getInt("id_transportista")));
+               tc.setFecha(rs.getDate("Fecha").toLocalDate());
+              tc.setConsultorio(g_Data.obtenerGeneradorConsultorio(rs.getInt("id_Consultorio")));
                
-               tC.setId_ticket(rs.getInt("id_Ticket"));
-               tC.setTransportista(Transportista.valueOf(rs.getString("Transportista")));
-               tC.setConsultorio(gcD.obtenerGeneradorConsultorio(rs.getInt("id_consultorio")));
-               tC.setFecha(rs.getDate("Fecha").toLocalDate());
-               tC.setR1(Residuo.valueOf(rs.getString("ResiduoTipo")));
-               tC.setPeso(Residuo.valueOf(rs.));
-           } } catch (SQLException ex) {
+           }else{
+               JOptionPane.showMessageDialog(null, "No existe el ticket solicitado","Atención", JOptionPane.WARNING_MESSAGE);
+           }
+           
+       } catch (SQLException ex) {
            Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
        }
-   }
-
+    return tc; 
+    }
+    
+    public void eliminarTicket(int id_ticket) throws SQLException{
+        
+        PreparedStatement ps_deleteResiduos=null;
+        PreparedStatement ps_deleteTicket=null;
+        
+        try {
+           conx.setAutoCommit(false);
+           
+           ps_deleteResiduos=conx.prepareStatement("DELETE FROM residuo WHERE id_Ticket= ? ");
+           ps_deleteResiduos.setInt(1, id_ticket);
+           ps_deleteResiduos.executeUpdate();
+           
+           ps_deleteTicket=conx.prepareStatement("DELETE FROM ticket_control WHERE id_Ticket= ?");
+           ps_deleteTicket.setInt(1, id_ticket);
+           ps_deleteTicket.executeUpdate();
+           
+           conx.commit();
+           
+           JOptionPane.showMessageDialog(null, "Se Elimino correctamente El Ticket N°:"+id_ticket+" con sus respectivos residuos");
+       } catch (SQLException ex) {
+           if(conx != null){
+               conx.rollback();
+           }
+           JOptionPane.showMessageDialog(null, "Error al eliminar el ticket","Aviso", JOptionPane.WARNING_MESSAGE);
+           JOptionPane.showMessageDialog(null, ex.getMessage());
+          // Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       finally{
+             if (ps_deleteResiduos != null && ps_deleteTicket != null) {
+        ps_deleteResiduos.close();
+        ps_deleteTicket.close();
+    }
+    if (conx != null) {
+        conx.close();
+    }
+       }
+    }
+    
+    public ArrayList<TicketControl> listaTicketsTodos() throws SQLException{
+        ArrayList <TicketControl> lista=new ArrayList<>();
+        PreparedStatement ps=null;
+        try {
+            ps=conx.prepareStatement("SELECT * FROM `ticket_control`");
+            
+            ResultSet rs=ps.executeQuery();
+            
+            while(rs.next()){
+                TicketControl tk=new TicketControl();
+                tk.setId_ticket(rs.getInt("id_Ticket"));
+                tk.setFecha(rs.getDate("Fecha").toLocalDate());
+                tk.setConsultorio(g_Data.obtenerGeneradorConsultorio(rs.getInt(4)));
+                tk.setTransportista(t_Data.obtenerTransportista(rs.getInt(2)));
+                
+                lista.add(tk);
+            }
+                     
+        } catch (SQLException ex) {
+            if(conx != null){
+              JOptionPane.showMessageDialog(null, "Error Con la Conexion", "!AVISO", JOptionPane.WARNING_MESSAGE); 
+              JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+           
+        }
+        finally{
+            if(ps != null){
+            ps.close();
+        }
+            if(conx != null){
+                conx.close();
+            }
+        }
+   return lista; }
+    
+    
+    public void modificarTicket(TicketControl tk,int id_tk) throws SQLException{
+      PreparedStatement ps= null;
+        
+        try {
+           ps=conx.prepareStatement("UPDATE `ticket_control` SET `id_transportista`=?, `Fecha`= ?, id_consultorio= ? WHERE id_Ticket= ?");
+           
+           ps.setInt(1, tk.getTransportista().getId());
+           ps.setDate(2, java.sql.Date.valueOf(tk.getFecha()));
+           ps.setInt(3, tk.getConsultorio().getId_Consultorio());
+           ps.setInt(4, id_tk);
+           
+           String m;
+           if(ps.executeUpdate()>0){
+               m="Se ha realizado la modificacion";
+           }else{
+               m="No fue posible realizar cambios";
+           }
+       
+           JOptionPane.showMessageDialog(null, m, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+       
+       } catch (SQLException ex) {
+            // Si hay un error, se deshace la transacción y se muestra el error
+           if(conx != null){
+               JOptionPane.showMessageDialog(null, "No fue Posible establecer la conexion y realizar la modificación", "Error", JOptionPane.WARNING_MESSAGE);
+               JOptionPane.showMessageDialog(null, ex.getMessage());
+           }
+         //  Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       finally{
+           // Se cierra la conexión y el objeto PreparedStatement
+           if(ps != null){
+               ps.close();
+           }
+           if(conx != null){
+               conx.close();
+           }
+       }
+    }
+    
+    
 }
