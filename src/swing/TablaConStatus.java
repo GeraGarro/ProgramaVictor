@@ -7,6 +7,8 @@ import Entidades.GeneradorConsultorio;
 import Entidades.Transportista;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -22,10 +24,10 @@ public class TablaConStatus extends JTable{
         
         setShowHorizontalLines(true);
         setShowVerticalLines(false);
-        setRowHeight(50);
-        setGridColor(new Color(0,0,100));    
-         
-        
+       
+        setGridColor(new Color(100,100,100));    
+        this.setBorder(BorderFactory.createEmptyBorder());
+        this.setIntercellSpacing(new Dimension(0, 0));
         getTableHeader().setReorderingAllowed(false);
         getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer(){
             @Override
@@ -37,11 +39,11 @@ public class TablaConStatus extends JTable{
             setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object o, boolean selected, boolean bnl2, int i, int i2) {
-            setRowHeight(30);
+            setRowHeight(50);
                 if(i2 != table.getColumnCount()-2){
                    Component com=super.getTableCellRendererComponent(table, o, selected, bnl2, i, i2); 
-                   com.setBackground(new Color(215,215,215));
-                    setBorder(noFocusBorder);
+                   com.setBackground(new Color(255,255,255));
+
                     //com.setBackground(Color.WHITE);
                    if(selected){
                        com.setForeground(new Color(185, 136, 232));
@@ -59,7 +61,8 @@ public class TablaConStatus extends JTable{
             }
             }     
 });
-            
+    
+         
     }
     public void agregarFila(Object[] fila){
      DefaultTableModel model= (DefaultTableModel) getModel();

@@ -21,7 +21,6 @@ public class Certificado_Data {
     private Transportista_Data tD;
     
 public Certificado_Data(){
-  this.conx=Conexion.getConexion();
   this.tk_Data=new TicketControl_Data();
   this.tD=new Transportista_Data();
 }    
@@ -36,7 +35,7 @@ public void generarNuevoCertificado(CertificadoDisposicionFinal c) throws SQLExc
         LocalDate periodoComp;
         
     
-    try {
+    try {conx=Conexion.getConexion();
           ps=conx.prepareStatement("INSERT INTO certificado (id_transportista, totalPeso, periodo) VALUES (?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
           ps.setInt(1,c.getTransportista().getId());
           ps.setNull(2, Types.FLOAT);
@@ -127,10 +126,11 @@ public void generarNuevoCertificado(CertificadoDisposicionFinal c) throws SQLExc
     }
 }
 
-public ArrayList<CertificadoDisposicionFinal> listaCertificados(){
+public ArrayList<CertificadoDisposicionFinal> listaCertificados() throws SQLException{
         ArrayList<CertificadoDisposicionFinal> lista=new ArrayList<>();
-    try {
-            PreparedStatement ps=conx.prepareStatement("SELECT * FROM certificado");
+        PreparedStatement ps=null;
+    try {conx=Conexion.getConexion();
+             ps=conx.prepareStatement("SELECT * FROM certificado");
             ResultSet rs=ps.executeQuery();
             
             while(rs.next()){
@@ -147,7 +147,14 @@ public ArrayList<CertificadoDisposicionFinal> listaCertificados(){
             JOptionPane.showMessageDialog(null, ex);
             //Logger.getLogger(Certificado_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+    finally{
+        if(ps!=null){
+            ps.close();
+        }
+        if(conx!=null){
+            conx.close();
+        }
+    }
     
 return lista;}
 }

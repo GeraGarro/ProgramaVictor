@@ -15,11 +15,12 @@ public class Transportista_Data {
     private Connection conx;
     
     public Transportista_Data (){
-        this.conx=Conexion.getConexion();
+        
 }
     public void crearTransportista(Transportista t){
         
         try {
+            conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("INSERT INTO `transportista`(`nombre`, `apellido`, `cuit`, `estado`) VALUES ( ?, ?, ?, ?)");
             ps.setString(1, t.getNombre());
             ps.setString(2, t.getApellido());
@@ -34,7 +35,7 @@ public class Transportista_Data {
                 mensaje="No se pudo realizar la solicitud";
             }
             JOptionPane.showMessageDialog(null, mensaje, "aviso", JOptionPane.INFORMATION_MESSAGE);
-        
+            conx.close();
         
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex, "ERROR!",JOptionPane.WARNING_MESSAGE);
@@ -43,8 +44,9 @@ public class Transportista_Data {
     }
     
     public void CambiarEstadoTransportista(int id){
+        
         try {
-            
+            conx=Conexion.getConexion();
        
             PreparedStatement ps= conx.prepareStatement("UPDATE `transportista` SET `estado`= NOT `estado` WHERE id_transportista= ?");
             PreparedStatement ps2=conx.prepareStatement("SELECT `estado` FROM `transportista` WHERE id_transportista= ?");
@@ -71,6 +73,7 @@ public class Transportista_Data {
                 estado="Inactivo";
             }
             JOptionPane.showMessageDialog(null, mensaje+" Tranporista: "+estado, "Reporte",JOptionPane.INFORMATION_MESSAGE);
+            conx.close();
         } catch (SQLException ex) {
             //JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(Transportista_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +82,7 @@ public class Transportista_Data {
     }
     
     public void modificarTransportista(Transportista t,int id){
-        try {
+        try {conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("UPDATE `transportista` SET `nombre`= ?,`apellido`= ?,`cuit`= ?,`estado`= ? WHERE id_transportista= ?");
         
             ps.setString(1, t.getNombre());
@@ -98,6 +101,7 @@ public class Transportista_Data {
             }
             
             JOptionPane.showMessageDialog(null, mensaje, "Aviso",JOptionPane.INFORMATION_MESSAGE);
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex,"ERROR!",JOptionPane.WARNING_MESSAGE);
            // Logger.getLogger(Transportista_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +112,7 @@ public class Transportista_Data {
     public ArrayList<Transportista> listaTransportistaTodos(){
         ArrayList<Transportista> lista=new ArrayList<>();
         try {
-            
+            conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("SELECT * FROM `transportista`");
             
             ResultSet rs=ps.executeQuery();
@@ -122,6 +126,8 @@ public class Transportista_Data {
                 t.setId(rs.getInt(1));
                 lista.add(t);
             }  
+            
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(Transportista_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,7 +136,7 @@ public class Transportista_Data {
     
      public ArrayList<Transportista> listaTransportistaActivos(){
         ArrayList<Transportista> lista=new ArrayList<>();
-        try {
+        try {conx=Conexion.getConexion();
             
             PreparedStatement ps=conx.prepareStatement("SELECT * FROM `transportista` WHERE estado= 1");
             
@@ -145,6 +151,7 @@ public class Transportista_Data {
                 t.setId(rs.getInt(1));
                 lista.add(t);
             }  
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(Transportista_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,7 +161,7 @@ public class Transportista_Data {
 public ArrayList<Transportista> buscarTransportistaPorNombre(String nombre){
         ArrayList<Transportista> lista=new ArrayList<>();
     
-        try {
+        try {conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("SELECT * FROM `transportista` WHERE CONCAT (nombre,' ',apellido) LIKE ?");
             ps.setString(1, "%"+nombre+"%");
             
@@ -169,6 +176,7 @@ public ArrayList<Transportista> buscarTransportistaPorNombre(String nombre){
                 t.setId(rs.getInt(1));
                 lista.add(t);
             }  
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(Transportista_Data.class.getName()).log(Level.SEVERE, null, ex);
         
@@ -180,7 +188,7 @@ return lista;}
     public Transportista obtenerTransportista(int id){
             Transportista t=new Transportista();
         try {
-
+                conx=Conexion.getConexion();
                 PreparedStatement ps=conx.prepareStatement("SELECT * FROM `transportista` WHERE id_transportista= ?");
                 ps.setInt(1, id);
                 
@@ -196,6 +204,7 @@ return lista;}
                     
                 }
                 ps.close();
+                conx.close();
                 } catch (SQLException ex) {
                     
                     JOptionPane.showMessageDialog(null, ex);

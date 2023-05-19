@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Residuo_Data {
-    private Connection cnx;
+    private Connection conx;
     private TipoResiduo_Data tR_Data;
     private TicketControl_Data tk_Data;
     
     public Residuo_Data(){
-        this.cnx= Conexion.getConexion();
+       
         this.tR_Data=new TipoResiduo_Data();
         this.tk_Data=new TicketControl_Data();
     }
@@ -26,9 +26,10 @@ public class Residuo_Data {
     public void agregarResiduo(Residuo r){
         
         try {
+            conx=Conexion.getConexion();
             String sql="INSERT INTO `residuo`( `id_tipoResiduo`, `peso`, `id_Ticket`, `estado`) VALUES ( ?, ?, ?, ?)";
             
-            PreparedStatement ps= cnx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps= conx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             
             ps.setInt(1, r.getTipo().getId_TipoResiduo());
             ps.setFloat(2, r.getPeso());
@@ -47,6 +48,8 @@ public class Residuo_Data {
             }
             
             JOptionPane.showMessageDialog(null, mensaje);
+            ps.close();
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Conexion Erronea, no existe el ticket Control para relacionar con el objeto residuo", "Alerta", JOptionPane.WARNING_MESSAGE);
             //Logger.getLogger(Residuo_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +61,7 @@ public class Residuo_Data {
     
     public ArrayList<Residuo> buscarResiduoPorTipo(String nombreTipo){
         ArrayList<Residuo> lista= new ArrayList<>();
-        try {
+        try {conx=Conexion.getConexion();
            
             
             String sql="SELECT *\n" +
@@ -69,7 +72,7 @@ public class Residuo_Data {
 "  WHERE descripcion LIKE ?\n" +
 ");";
             
-            PreparedStatement ps=cnx.prepareStatement(sql);
+            PreparedStatement ps=conx.prepareStatement(sql);
             
             ps.setString(1, "%"+nombreTipo+"%");
             
@@ -87,7 +90,8 @@ public class Residuo_Data {
                 lista.add(r);
                 }
                 
-            
+            ps.close();
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex,"!AVISO error con la Base de Datos", JOptionPane.WARNING_MESSAGE);
            // Logger.getLogger(Residuo_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,8 +103,8 @@ public class Residuo_Data {
     }
 
     public void eliminarResiduo(int id_residuo){
-        try {
-            PreparedStatement ps=cnx.prepareStatement("DELETE FROM `residuo` WHERE id_residuo= ?");
+        try {conx=Conexion.getConexion();
+            PreparedStatement ps=conx.prepareStatement("DELETE FROM `residuo` WHERE id_residuo= ?");
             
             ps.setInt(1, id_residuo);
             String mensaje;
@@ -110,6 +114,8 @@ public class Residuo_Data {
                 mensaje="No se realizaron cambios";
             }
             JOptionPane.showMessageDialog(null, mensaje, "Atencion", JOptionPane.INFORMATION_MESSAGE);
+            ps.close();
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error de conexion con Base de datos");
             JOptionPane.showMessageDialog(null, ex);
@@ -119,8 +125,8 @@ public class Residuo_Data {
     }
     public ArrayList<Residuo> listarResiduosTodos(){
         ArrayList<Residuo> lista= new ArrayList<>();
-        try {
-            PreparedStatement ps=cnx.prepareStatement("SELECT * FROM `residuo`");
+        try {conx=Conexion.getConexion();
+            PreparedStatement ps=conx.prepareStatement("SELECT * FROM `residuo`");
             
             ResultSet rs= ps.executeQuery();
             
@@ -133,7 +139,8 @@ public class Residuo_Data {
                 
                 
                 lista.add(r);
-                
+                ps.close();
+                conx.close();
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la conexion con la base de datos");
@@ -145,8 +152,9 @@ public class Residuo_Data {
     
      public ArrayList<Residuo> listarResiduosActivos(){
         ArrayList<Residuo> lista= new ArrayList<>();
-        try {
-            PreparedStatement ps=cnx.prepareStatement("SELECT * FROM `residuo` WHERE estado= ?");
+        try {conx=Conexion.getConexion();
+            conx=Conexion.getConexion();
+            PreparedStatement ps=conx.prepareStatement("SELECT * FROM `residuo` WHERE estado= ?");
             
             ps.setBoolean(1, true);
             
@@ -163,6 +171,9 @@ public class Residuo_Data {
                 lista.add(r);
                 
             }
+            ps.close();
+            conx.close();
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la conexion con la base de datos");
             JOptionPane.showMessageDialog(null, ex);
@@ -174,8 +185,8 @@ public class Residuo_Data {
      
      public void modificarResiduo(Residuo r, int id_residuo){
          
-        try {
-            PreparedStatement ps=cnx.prepareStatement("UPDATE `residuo` SET "                   
+        try {conx=Conexion.getConexion();
+            PreparedStatement ps=conx.prepareStatement("UPDATE `residuo` SET "                   
                     + "id_TipoResiduo= ?,"
                     + "peso= ?,"
                     + "id_Ticket= ?,"
@@ -196,7 +207,8 @@ public class Residuo_Data {
             }
             
             JOptionPane.showMessageDialog(null, mensaje);
-            
+            ps.close();
+            conx.close();
         } catch (SQLException ex) {
             
             JOptionPane.showMessageDialog(null, "Error de conexion con la base de datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);

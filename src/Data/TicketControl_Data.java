@@ -16,20 +16,20 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TicketControl_Data {
-   private Connection conx; 
+   
    private Transportista_Data t_Data;
    private GeneradorConsultorio_Data g_Data;
+   private Connection conx;
    
-   
-public TicketControl_Data(){
-    this.conx=Conexion.getConexion();    
+public TicketControl_Data(){     
    this.t_Data=new Transportista_Data();
    this.g_Data=new GeneradorConsultorio_Data();
 }
 
 public void CrearTicketControl(TicketControl tC){
-      
+            
                 try {
+              conx=Conexion.getConexion();
            PreparedStatement ps=conx.prepareStatement("INSERT INTO `ticket_control`(`id_transportista`, `Fecha`, `id_Consultorio`) VALUES ( ?, ?, ?)");
            
            ps.setInt(1, tC.getTransportista().getId());        
@@ -55,7 +55,12 @@ public void CrearTicketControl(TicketControl tC){
 
     public TicketControl obtenerTicket(int id){
         TicketControl tc=new TicketControl();
-       try {PreparedStatement ps;
+        
+       try {
+           conx=Conexion.getConexion();
+           
+           PreparedStatement ps;
+               
            ps = conx.prepareStatement("SELECT * FROM `ticket_control` WHERE id_Ticket= ?");
            
            ps.setInt(1, id);
@@ -85,6 +90,7 @@ public void CrearTicketControl(TicketControl tC){
         PreparedStatement ps_deleteTicket=null;
         
         try {
+            conx=Conexion.getConexion();
            conx.setAutoCommit(false);
            
            ps_deleteResiduos=conx.prepareStatement("DELETE FROM residuo WHERE id_Ticket= ? ");
@@ -102,9 +108,11 @@ public void CrearTicketControl(TicketControl tC){
            if(conx != null){
                conx.rollback();
            }
-           JOptionPane.showMessageDialog(null, "Error al eliminar el ticket","Aviso", JOptionPane.WARNING_MESSAGE);
-           JOptionPane.showMessageDialog(null, ex.getMessage());
-          // Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al eliminar el ticket","Aviso", JOptionPane.WARNING_MESSAGE);
+           // JOptionPane.showMessageDialog(null, "Esta intentando eliminar un ticket Asociado a un Certificado","Aviso", JOptionPane.WARNING_MESSAGE);
+
+             JOptionPane.showMessageDialog(null, ex.getMessage());
+           Logger.getLogger(TicketControl_Data.class.getName()).log(Level.SEVERE, null, ex);
        }
        finally{
              if (ps_deleteResiduos != null && ps_deleteTicket != null) {
@@ -119,8 +127,10 @@ public void CrearTicketControl(TicketControl tC){
     
     public ArrayList<TicketControl> listaTicketsTodos() throws SQLException{
         ArrayList <TicketControl> lista=new ArrayList<>();
+        
         PreparedStatement ps=null;
         try {
+            conx=Conexion.getConexion();
             ps=conx.prepareStatement("SELECT * FROM `ticket_control`");
             
             ResultSet rs=ps.executeQuery();
@@ -153,7 +163,7 @@ public void CrearTicketControl(TicketControl tC){
    return lista; }
     
     
-    public void modificarTicket(TicketControl tk,int id_tk) throws SQLException{
+    public void modificarTicket(TicketControl tk,int id_tk,Connection conx) throws SQLException{
       PreparedStatement ps= null;
         
         try {

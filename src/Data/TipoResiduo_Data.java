@@ -19,11 +19,12 @@ public class TipoResiduo_Data {
     
     public TipoResiduo_Data(){
         
-        this.conx=Conexion.getConexion();
+        
     }
     
     public void CrearTipoResiduo(TipoResiduo tr){
         try {
+            conx=Conexion.getConexion();
             String sql="INSERT INTO `tiporesiduo`(`descripcion`,`estado`) VALUES (?, ?)";
             PreparedStatement ps=conx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, tr.getDescripcion());
@@ -47,7 +48,7 @@ public class TipoResiduo_Data {
     
     public void CambiarEstadoTipoResiduo(int id_TipoResiduo){
         
-        try {
+        try { conx=Conexion.getConexion();
             String sql="UPDATE `tiporesiduo` SET estado= not estado WHERE id_tipoResiduo= ?";
             
             String sqlSecundario="SELECT `estado` FROM `tiporesiduo` WHERE id_tipoResiduo= ?";
@@ -83,7 +84,8 @@ public class TipoResiduo_Data {
                 mensaje="No se pudo Realizar el cambio de estado actual del Residuo";
             }
             JOptionPane.showMessageDialog(null, mensaje);
-        
+            ps.close();
+            conx.close();
         } catch (SQLException ex) {
            // Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
            JOptionPane.showMessageDialog(null, ex);
@@ -93,6 +95,7 @@ public class TipoResiduo_Data {
  public ArrayList<TipoResiduo> ListaTipoResiduoTodos(){
         ArrayList<TipoResiduo> lista=new ArrayList();
         try {
+             conx=Conexion.getConexion();
             String sql="SELECT * FROM `tiporesiduo`";
             PreparedStatement ps=conx.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
@@ -106,6 +109,7 @@ public class TipoResiduo_Data {
                 lista.add(tR);
             }
             ps.close();
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
            // Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,6 +124,7 @@ public class TipoResiduo_Data {
   public ArrayList<TipoResiduo> ListaTipoResiduoActivos(){
         ArrayList<TipoResiduo> lista=new ArrayList();
         try {
+             conx=Conexion.getConexion();
             String sql="SELECT * FROM `tiporesiduo` WHERE estado=1";
             PreparedStatement ps=conx.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
@@ -133,6 +138,7 @@ public class TipoResiduo_Data {
                 lista.add(tR);
             }
             ps.close();
+            conx.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,7 +150,7 @@ public class TipoResiduo_Data {
  }
   
   public void modificarTipoResiduo(TipoResiduo tR,int id){
-        try {
+        try { conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("UPDATE `tiporesiduo` SET `descripcion`= ?,`estado`=  ? WHERE id_tipoResiduo= ?");
             
             ps.setString(1, tR.getDescripcion());
@@ -160,6 +166,7 @@ public class TipoResiduo_Data {
                 mensaje="No se pudo realizar la modificacón solicitada";
             }
             JOptionPane.showMessageDialog(null, mensaje, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,7 +188,7 @@ public class TipoResiduo_Data {
                tR.setEstado(rs.getBoolean(3));
                lista.add(tR);
             }
-            
+            conx.close();
         } catch (SQLException ex) {
            // JOptionPane.showMessageDialog(null, ex, "Atencion",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
@@ -192,7 +199,7 @@ public class TipoResiduo_Data {
   public TipoResiduo ObtenerTipoResiduo(int id){
       TipoResiduo tR=new TipoResiduo();
       
-      try {
+      try { conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("SELECT * FROM `tiporesiduo` WHERE id_tipoResiduo= ?");
              ps.setInt(1, id);
              
@@ -204,6 +211,7 @@ public class TipoResiduo_Data {
               tR.setEstado(rs.getBoolean("estado"));
              }
             ps.close();
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(TipoResiduo_Data.class.getName()).log(Level.SEVERE, null, ex);
         }

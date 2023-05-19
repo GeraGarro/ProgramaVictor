@@ -1,5 +1,7 @@
 package Entidades;
 
+import java.util.Objects;
+
 public class GeneradorConsultorio {
 
     private int id_Consultorio;
@@ -69,6 +71,29 @@ public class GeneradorConsultorio {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GeneradorConsultorio other = (GeneradorConsultorio) obj;
+        return this.id_Consultorio == other.id_Consultorio;
+    }
+
+    
 
     @Override
     public String toString() {

@@ -17,7 +17,7 @@ public class GeneradorConsultorio_Data {
     private Connection conx;
     
     public GeneradorConsultorio_Data(){
-        this.conx= Conexion.getConexion();
+      
                 
     }
     
@@ -26,6 +26,7 @@ public class GeneradorConsultorio_Data {
             String sql="INSERT INTO `generador_consultorio`( `Nombre`, `Cuit`, `Domicilio`, `estado`) VALUES (?, ?, ?, ?)";
             
          try {   
+             conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, gc.getNombre());
             ps.setString(2, gc.getCuit());
@@ -42,9 +43,11 @@ public class GeneradorConsultorio_Data {
                 mensaje="No se pudo Ingresar el consultorio";
             }
              JOptionPane.showMessageDialog(null, mensaje,"Aviso",JOptionPane.INFORMATION_MESSAGE);
+          conx.close();   
          } catch (SQLException ex) {
 
              JOptionPane.showMessageDialog(null, ex);        }
+         
      
  }
  
@@ -52,7 +55,8 @@ public GeneradorConsultorio obtenerGeneradorConsultorio(int id_Consultorio){
        
             String sql="SELECT * FROM `generador_consultorio` WHERE id_consultorio= ?";
             GeneradorConsultorio gC=new GeneradorConsultorio();
-         try {    
+         try { 
+             conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement(sql);
             ps.setInt(1, id_Consultorio);
             ResultSet rs=ps.executeQuery();
@@ -68,7 +72,7 @@ public GeneradorConsultorio obtenerGeneradorConsultorio(int id_Consultorio){
             }
             ps.close();
             
-            
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(GeneradorConsultorio_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,6 +85,7 @@ public void cambiarEstadoConsultorio(int id_Consultorio){
             String sql_Consulta="SELECT `nombre`,`estado`FROM `generador_consultorio` WHERE id_consultorio= ?";
             
            try { 
+               conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement(sql_UPDATE);
             PreparedStatement ps2=conx.prepareStatement(sql_Consulta);
             ps.setInt(1, id_Consultorio);
@@ -106,6 +111,7 @@ public void cambiarEstadoConsultorio(int id_Consultorio){
                 mensaje="Error al realizar la solicitud";
             }
             JOptionPane.showMessageDialog(null, mensaje+"-> Estado "+es, "!Aviso", JOptionPane.INFORMATION_MESSAGE);
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(GeneradorConsultorio_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,8 +123,9 @@ public ArrayList <GeneradorConsultorio> listarConsultoriosTodos() {
             GeneradorConsultorio gc=new GeneradorConsultorio();
             
             String sql="SELECT * FROM generador_consultorio";
-            
+           conx=Conexion.getConexion();
            try {  
+            
             PreparedStatement ps=conx.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
             
@@ -132,7 +139,7 @@ public ArrayList <GeneradorConsultorio> listarConsultoriosTodos() {
                 lista.add(gc);
             }
                 ps.close();
-                
+                conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(GeneradorConsultorio_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -145,6 +152,7 @@ public ArrayList<GeneradorConsultorio> listaConsultoriosActivos(){
          ArrayList<GeneradorConsultorio> lista=new ArrayList<>();
     
             try {
+                conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("SELECT * FROM `generador_consultorio` WHERE `estado`= 1");
             ResultSet rs= ps.executeQuery();
             
@@ -159,7 +167,7 @@ public ArrayList<GeneradorConsultorio> listaConsultoriosActivos(){
                 lista.add(gC);
             }
 
-            
+            conx.close();
         } catch (SQLException ex) {
             Logger.getLogger(GeneradorConsultorio_Data.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -169,6 +177,7 @@ return lista;
 public void modificarConsultorio (GeneradorConsultorio gC, int id_Consultorio){
     
         try {
+            conx=Conexion.getConexion();
             PreparedStatement ps=conx.prepareStatement("UPDATE `generador_consultorio` SET `nombre`= ?,`cuit`= ?,`domicilio`= ?,`estado`= ?  WHERE id_consultorio= ?");
             ps.setString(1, gC.getNombre());
             ps.setString(2, gC.getCuit());
@@ -184,6 +193,7 @@ public void modificarConsultorio (GeneradorConsultorio gC, int id_Consultorio){
             }
         
             JOptionPane.showMessageDialog(null, m, "!AVISO", JOptionPane.INFORMATION_MESSAGE);
+            conx.close();
         } catch (SQLException ex) {
             
             JOptionPane.showMessageDialog(null, ex, "!ERROR",JOptionPane.WARNING_MESSAGE);

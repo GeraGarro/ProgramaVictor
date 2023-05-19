@@ -11,6 +11,8 @@ import Entidades.Residuo;
 import Entidades.TicketControl;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -29,9 +31,10 @@ public class TablaSinStatus extends JTable{
         
         setShowHorizontalLines(true);
         setShowVerticalLines(false);
-        setRowHeight(50);
-        setGridColor(new Color(0,0,100));    
-         
+        setRowHeight(80);
+        setGridColor(new Color(100,100,100));    
+         this.setBorder(null);
+        this.setIntercellSpacing(new Dimension(0, 0));
         
         getTableHeader().setReorderingAllowed(false);
         getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer(){
@@ -43,10 +46,22 @@ public class TablaSinStatus extends JTable{
             }}
         
         );
-               
-           DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object o, boolean selected, boolean bnl2, int i, int i2) {
+            setRowHeight(50);
+                Component com=super.getTableCellRendererComponent(table, o, selected, bnl2, i, i2); 
+                   com.setBackground(new Color(255,255,255));
+                   
+              DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            this.setDefaultRenderer(Object.class, centerRenderer); 
+              
+            return com;
+            }     
+});
+        
+               
+         
     }
     public void agregarFila(Object[] fila){
      DefaultTableModel model= (DefaultTableModel) getModel();
@@ -84,7 +99,7 @@ public class TablaSinStatus extends JTable{
       setModel(modelo);
   }
   
-  public void agregarFilasCertificado(Certificado_Data cD){
+  public void agregarFilasCertificado(Certificado_Data cD) throws SQLException{
       DefaultTableModel modelo=(DefaultTableModel) getModel();
       modelo.setRowCount(0);
       

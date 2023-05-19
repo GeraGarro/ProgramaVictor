@@ -1,5 +1,7 @@
 package Entidades;
 
+import java.util.Objects;
+
 
 public class Transportista {
        
@@ -67,6 +69,15 @@ public class Transportista {
         this.estado = estado;
     }
 
+    @Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Transportista)) return false;
+    Transportista that = (Transportista) o;
+    return getId() == that.getId() &&
+           Objects.equals(getCuit(), that.getCuit());
+}
+    
     @Override
     public String toString() {
         return "Transportista N°" + id + "{ Nombre:" + nombre + " " + apellido + ", CUIT: " + cuit + ", Estado: " + estado + '}';

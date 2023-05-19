@@ -24,17 +24,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelBorde1" alignment="1" pref="871" max="32767" attributes="0"/>
+          <Component id="paneTotal" alignment="1" pref="942" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelBorde1" alignment="1" pref="602" max="32767" attributes="0"/>
+          <Component id="paneTotal" alignment="1" pref="657" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="componentes.PanelBorde" name="panelBorde1">
+    <Container class="componentes.PanelBorde" name="paneTotal">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e9" green="e9" red="f1" type="rgb"/>
@@ -50,19 +50,24 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="menu" min="-2" pref="193" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanelPrincipal" max="32767" attributes="0"/>
+                  <Component id="jPanelPrincipal" pref="743" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="menu" pref="602" max="32767" attributes="0"/>
+              <Component id="menu" pref="657" max="32767" attributes="0"/>
               <Component id="jPanelPrincipal" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Component class="componentes.Menu" name="menu">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="66" type="rgb"/>
+            </Property>
+          </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanelPrincipal">
           <Properties>

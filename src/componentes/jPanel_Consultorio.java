@@ -2,6 +2,19 @@ package componentes;
 
 
 import Data.GeneradorConsultorio_Data;
+import Data.Transportista_Data;
+import Entidades.Conexion;
+import java.sql.Connection;
+import javafx.scene.control.ScrollBar;
+import javax.swing.table.DefaultTableModel;
+import model.TiposStatus;
+import swing.AccionCeldaEnTabla;
+import swing.AccionCeldaEnTabla2;
+import swing.AccionTablaEditar;
+import swing.AccionTablaEditar2;
+import swing.TablaAccionEvento;
+import swing.TablaAccionEvento2;
+
 
 
 
@@ -11,8 +24,22 @@ public class jPanel_Consultorio extends javax.swing.JPanel {
     public jPanel_Consultorio() {
         
         initComponents();
-      // ScrollPanelTabla.setVerticalScrollBar(new ScrollBar());
+        TablaAccionEvento2 evento=new TablaAccionEvento2() {
+            @Override
+            public void onEdit(int fila) {
+            
+            }
+
+           
+
+            @Override
+            public void onPrint(int fila) {
                
+            }
+        };
+      // ScrollPanelTabla.setVerticalScrollBar(new ScrollBar());
+      tablaConsultorios.getColumnModel().getColumn(4).setCellEditor(new AccionTablaEditar2(evento));
+        tablaConsultorios.getColumnModel().getColumn(4).setCellRenderer(new AccionCeldaEnTabla2());
         tablaConsultorios.agregarFilasConsultorio(gCD);
     }
  
@@ -26,14 +53,14 @@ public class jPanel_Consultorio extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         ScrollPanelTabla = new javax.swing.JScrollPane();
         tablaConsultorios = new swing.TablaConStatus();
-        panelBordeBotones = new componentes.PanelBorde();
-        btnNuevoConsultorio = new javax.swing.JButton();
+        cabecera1 = new componentes.cabecera();
+        panelVentanaControl2 = new componentes.panelVentanaControl();
 
         panelTabla.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(95, 94, 103));
-        jLabel1.setText("Consultorios");
+        jLabel1.setText("Consultorio");
 
         tablaConsultorios.setForeground(new java.awt.Color(0, 0, 0));
         tablaConsultorios.setModel(new javax.swing.table.DefaultTableModel(
@@ -41,11 +68,11 @@ public class jPanel_Consultorio extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nombre", "Cuit", "Domicilio", "Estado de Actividad", "Accion"
+                "Nombre", "Cuit", "Domicilio", "Estado", "Accion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -59,11 +86,14 @@ public class jPanel_Consultorio extends javax.swing.JPanel {
         panelTablaLayout.setHorizontalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablaLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ScrollPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addGroup(panelTablaLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelTablaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ScrollPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelTablaLayout.setVerticalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,65 +101,47 @@ public class jPanel_Consultorio extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ScrollPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(ScrollPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        btnNuevoConsultorio.setText("Agregar Consultorio");
-        btnNuevoConsultorio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoConsultorioActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelBordeBotonesLayout = new javax.swing.GroupLayout(panelBordeBotones);
-        panelBordeBotones.setLayout(panelBordeBotonesLayout);
-        panelBordeBotonesLayout.setHorizontalGroup(
-            panelBordeBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBordeBotonesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnNuevoConsultorio)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelBordeBotonesLayout.setVerticalGroup(
-            panelBordeBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBordeBotonesLayout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(btnNuevoConsultorio)
-                .addGap(22, 22, 22))
-        );
+        cabecera1.setFont(new java.awt.Font("Gadugi", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBordeBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cabecera1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(panelVentanaControl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(panelBordeBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panelVentanaControl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(cabecera1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNuevoConsultorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoConsultorioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNuevoConsultorioActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPanelTabla;
-    private javax.swing.JButton btnNuevoConsultorio;
+    private componentes.cabecera cabecera1;
     private javax.swing.JLabel jLabel1;
-    private componentes.PanelBorde panelBordeBotones;
     private componentes.PanelBorde panelTabla;
+    private componentes.panelVentanaControl panelVentanaControl2;
     private swing.TablaConStatus tablaConsultorios;
     // End of variables declaration//GEN-END:variables
 }

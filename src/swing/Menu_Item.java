@@ -1,5 +1,6 @@
 package swing;
 
+import componentes.Menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -7,15 +8,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import model.Modelo_menu;
+import model.TiposStatus;
 
 public class Menu_Item extends javax.swing.JPanel {
 
     private boolean selected;
     private  boolean delante;
-    
+    private Modelo_menu data;
+     
     public Menu_Item(Modelo_menu data) {
         initComponents();
         setOpaque(false);
+        this.data=data;
         if(data.getTipo()==Modelo_menu.MenuTipo.MENU){
             TIcono.setIcon(data.toIcono());
             TNombre.setText(data.getNombre());
@@ -30,6 +34,7 @@ public class Menu_Item extends javax.swing.JPanel {
 }
     }
 
+ 
     public void setSelected(boolean selected){
         this.selected=selected;
         repaint();
@@ -69,23 +74,22 @@ public class Menu_Item extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    protected void paintComponent(Graphics grphcs) {
-        if(selected || delante){
-             Graphics2D g2=(Graphics2D)grphcs;
+@Override
+protected void paintComponent(Graphics grphcs) {
+    if (selected || delante) {
+        if (this.data.getTipo() != Modelo_menu.MenuTipo.VACIO) { // se comprueba si el elemento de menú no es de la clase enum VACIO
+            Graphics2D g2 = (Graphics2D) grphcs;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            if(selected){
-                g2.setColor(new Color(0, 0, 0,100));
-            }else{               
-                   g2.setColor(new Color(0, 0, 0,20));
-            
+            if (selected) {
+                g2.setColor(new Color(0, 0, 0, 100));
+            } else {
+                g2.setColor(new Color(0, 0, 0, 40));
             }
-            g2.fillRoundRect(10, 0, getWidth()-15, getHeight(), 5, 5); 
-        }       
-        
-        super.paintComponent(grphcs);
+            g2.fillRoundRect(10, 0, getWidth() - 15, getHeight(), 15, 15);
+        }
     }
-
+    super.paintComponent(grphcs);
+}
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TIcono;

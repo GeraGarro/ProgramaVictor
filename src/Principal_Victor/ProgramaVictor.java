@@ -24,8 +24,10 @@ import javax.swing.JFrame;
 
 public class ProgramaVictor {
 
-
     public static void main(String[] args) throws SQLException {
+        
+         
+
         //CREACION DE UN OBJETO TIPO TIPORESIDUO Y AGREGACION EN LA BASE DE DATOS EN LA TABLA CORRESPONDIENTE
          TipoResiduo tp=new TipoResiduo("Material Ultra Fino",false);
          
@@ -96,7 +98,7 @@ public class ProgramaVictor {
                     //gC_D.cambiarEstadoConsultorio(6);
                     
                 //LISTAR TODOS LOS CONSULTORIOS
-                /*    System.out.println("Lista General de Consultorios en BD:");
+                 /*   System.out.println("Lista General de Consultorios en BD:");
                 for (GeneradorConsultorio consultorio : gC_D.listarConsultoriosTodos()) {
                     System.out.println(consultorio);
         }*/
@@ -141,9 +143,9 @@ public class ProgramaVictor {
               TipoResiduo tR_inventado=new TipoResiduo("Papa", true);
               
               TicketControl_Data tk_D=new TicketControl_Data();
-              TicketControl tk_DB=tk_D.obtenerTicket(33);
+           //   TicketControl tk_DB=tk_D.obtenerTicket(33,conx);
               
-              //System.out.println(tk_DB);
+             // System.out.println(tk_DB);
              // Residuo r=new Residuo(tR, 87, tk_DB,false);
               //Residuo r_inventado=new Residuo(tR_D.ObtenerTipoResiduo(2), 710, tk_DB, true); // CREACION DE UN OBJETO RESIDUO QUE NO TIENE VINCULO CON NINGUN TICKET DEL DB
               
@@ -181,7 +183,7 @@ public class ProgramaVictor {
             
             //ELIMINAR TICKET DE LA BASE DE DATOS JUNTO A LOS RESIDUOS RELACIONADOS EN LA TABLA RESIDUO
             
-            //tk_Data.eliminarTicket(19);
+          //  tk_Data.eliminarTicket(19);
             
             //MOSTRAR LISTA DE TODOS LOS TICKETS
            /* System.out.println("Lista de Todos los Tickets en la Base de Datos");
@@ -203,9 +205,12 @@ public class ProgramaVictor {
          
          //LISTAR LOS CERTIFICADOS
          
-         for (CertificadoDisposicionFinal Certificado : cert_Data.listaCertificados()) {
-             System.out.println(Certificado);
-        }
+        // for (CertificadoDisposicionFinal Certificado : cert_Data.listaCertificados()) {
+           //  System.out.println(Certificado);
+       // }
+    
+    main principal=new main();
+        principal.setVisible(true);
     }
     }
     
